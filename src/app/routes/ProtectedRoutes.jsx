@@ -8,5 +8,5 @@ const ProtectedRoute = ({ isAuthorized, redirectPath }) => {
 
   return <Outlet />;
 };
-
+  
 export default ProtectedRoute;
