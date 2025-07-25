@@ -2,11 +2,12 @@ import { configureStore } from '@reduxjs/toolkit';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
-import { concatMiddleware, rootReducer } from '@/store/root-reducer';
+import { concatMiddleware, rootReducer } from './root-reducres'
 
 const persistConfig = {
   key: 'root',
   storage,
+  whitelist: ['auth'], // Specify which slices to persist
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
