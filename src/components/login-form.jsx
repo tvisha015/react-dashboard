@@ -13,16 +13,14 @@ import {
 import { loginSchema } from "@/users/types/schema";
 import { useLoginUserMutation } from "@/store/api/login";
 import { useDispatch } from "react-redux";
-import { login } from "@/store/slices/authSlice"; 
+import { login } from "@/store/slices/authSlice";
 import { useNavigate } from "react-router-dom";
 
 export function LoginForm() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [loginUser , {
-    isLoading: loading,
-    error: loginErrorResponse,
-  }] = useLoginUserMutation();
+  const [loginUser, { isLoading: loading, error: loginErrorResponse }] =
+    useLoginUserMutation();
 
   const {
     control,
@@ -31,23 +29,22 @@ export function LoginForm() {
   } = useForm({
     resolver: yupResolver(loginSchema),
     defaultValues: {
+      username: "john_doe",
       email: "john@mail.com",
       password: "changeme",
     },
   });
 
   const onSubmit = async (formData) => {
-  try {
-    const response = await loginUser(formData).unwrap();
-    dispatch(login(response));
-    navigate("/dashboard");
-  } catch (error) {
-    console.error("Login failed:", error);
-    // Handle error, e.g., show a notification or set an error state
-  }
-};
-
-
+    try {
+      const { access_token } = await loginUser(formData).unwrap();
+      dispatch(login(access_token));
+      navigate("/dashboard");
+    } catch (error) {
+      console.error("Login failed:", error);
+      // Handle error, e.g., show a notification or set an error state
+    }
+  };
 
   return (
     <Card>
@@ -57,7 +54,25 @@ export function LoginForm() {
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
-
+          {/* Username Field */}
+          <div className="grid gap-2">
+            <Label htmlFor="username">Username</Label>
+            <Controller
+              name="username"
+              control={control}
+              defaultValue=""
+              render={({ field }) => (
+                <Input
+                  id="username"
+                  placeholder="Enter your username"
+                  {...field}
+                />
+              )}
+            />
+            {errors.username && (
+              <p className="text-sm text-red-500">{errors.username.message}</p>
+            )}
+          </div>
           {/* Email Field */}
           <div className="grid gap-2">
             <Label htmlFor="email">Email</Label>
@@ -91,7 +106,9 @@ export function LoginForm() {
           </div>
 
           {/* Error Message */}
-          {loginErrorResponse && <p className="text-red-600 text-sm">{loginErrorResponse}</p>}
+          {loginErrorResponse && (
+            <p className="text-red-600 text-sm">{loginErrorResponse}</p>
+          )}
 
           {/* Submit Button */}
           <Button type="submit" disabled={loading}>

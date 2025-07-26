@@ -8,11 +8,12 @@ const PrivateRoutesMemo = memo(PrivateRoutes);
 const PublicRoutesMemo = memo(PublicRoutes);
 
 const Routes = () => {
-    const isAuthorized = useSelector((state) => state.auth.isAuthenticated); 
-    console.log("🚀 ~ Routes ~ isAuthorized:", isAuthorized);
+    const {
+      isAuthenticated
+    } = useSelector((state) => state.auth); // ✅ Get from Redux
 
-  const routes = isAuthorized ? (
-    <PrivateRoutesMemo isAuthorized={isAuthorized} />
+  const routes = isAuthenticated ? (
+    <PrivateRoutesMemo isAuthorized={isAuthenticated} />
   ) : (
     <PublicRoutesMemo />
   );
