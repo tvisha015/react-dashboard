@@ -32,6 +32,9 @@ const Dashboard = () => {
     dispatch(logout())
     navigate("/"); // Assuming you have a navigate function to redirect
   }
+  const viewProductHandler = () => {
+    navigate("/products"); // Navigate to the products page
+  };
 
   return (
     <>
@@ -44,6 +47,12 @@ const Dashboard = () => {
         )}
         <button onClick={logoutHandler} className="ml-4 px-4 py-2 bg-red-500 text-white rounded">
           Logout
+        </button>
+
+        <button>
+          <a onClick={viewProductHandler} className="ml-4 px-4 py-2 bg-blue-500 text-white rounded">
+            Go to Products
+          </a>
         </button>
       </div>
     </>
