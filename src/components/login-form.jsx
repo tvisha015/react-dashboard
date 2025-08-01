@@ -38,7 +38,7 @@ export function LoginForm() {
   const onSubmit = async (formData) => {
     try {
       const { access_token } = await loginUser(formData).unwrap();
-      dispatch(login(access_token));
+      dispatch(login(access_token));  
       navigate("/dashboard");
     } catch (error) {
       console.error("Login failed:", error);
