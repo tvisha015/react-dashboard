@@ -12,6 +12,8 @@ const Routes = () => {
       isAuthenticated
     } = useSelector((state) => state.auth); // ✅ Get from Redux
 
+    // const  isAuthenticated = useSelector((state) => state.auth.isAuthenticated); // ✅ Get from Redux
+
   const routes = isAuthenticated ? (
     <PrivateRoutesMemo isAuthorized={isAuthenticated} />
   ) : (

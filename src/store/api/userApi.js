@@ -15,6 +15,7 @@ export const userApi = createApi({
       }),
     }),
   }),
+
 });
 
 export const { useUserProfileQuery } = userApi;
